@@ -15,8 +15,8 @@ function App() {
   return (
     <Authenticator>
       {({ signOut }) => (
-        <main>
-          <button onClick={signOut}>Sign out</button>
+        <main style={{ padding: '20px' }}>
+          <button onClick={signOut} style={{ marginBottom: '20px' }}>Sign out</button>
           <AIConversation
             messages={messages}
             isLoading={isLoading}
