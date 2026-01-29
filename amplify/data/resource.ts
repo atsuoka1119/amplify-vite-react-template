@@ -15,14 +15,14 @@ const schema = a.schema({
 
   // AI Conversation route
   chat: a.conversation({
-    aiModel: a.ai.model('Claude 3.5 Sonnet v2'),
+    aiModel: a.ai.model('Claude 3 Haiku'),
     systemPrompt: 'You are a helpful assistant',
   })
   .authorization((allow) => allow.owner()),
 
   // AI Generation route
   generateRecipe: a.generation({
-    aiModel: a.ai.model('Claude 3.5 Sonnet v2'),
+    aiModel: a.ai.model('Claude 3 Haiku'),
     systemPrompt: 'You are a helpful assistant that generates recipes.',
   })
   .arguments({
