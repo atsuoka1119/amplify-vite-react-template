@@ -1,42 +1,31 @@
-import * as React from 'react';
-import { Flex, TextAreaField, Loader, Text, View, Button } from "@aws-amplify/ui-react"
-import { useAIGeneration } from "./client";
+import { Authenticator } from '@aws-amplify/ui-react';
+import { AIConversation } from '@aws-amplify/ui-react-ai';
+import { useAIConversation } from './client';
+import '@aws-amplify/ui-react/styles.css';
 
-export default function App() {
-  const [description, setDescription] = React.useState("");
-  const [{ data, isLoading }, generateRecipe] =
-    useAIGeneration("generateRecipe");
-
-  const handleClick = async () => {
-    generateRecipe({ description });
-  };
+function App() {
+  const [
+    {
+      data: { messages },
+      isLoading,
+    },
+    sendMessage,
+  ] = useAIConversation('chat');
 
   return (
-    <Flex direction="column">
-      <Flex direction="row">
-        <TextAreaField
-          autoResize
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          label="Description"
-        />
-        <Button onClick={handleClick}>Generate recipe</Button>
-      </Flex>
-      {isLoading ? (
-        <Loader variation="linear" />
-      ) : (
-        <>
-          <Text fontWeight="bold">{data?.name}</Text>
-          <View as="ul">
-            {data?.ingredients?.map((ingredient) => (
-              <View as="li" key={ingredient}>
-                {ingredient}
-              </View>
-            ))}
-          </View>
-          <Text>{data?.instructions}</Text>
-        </>
+    <Authenticator>
+      {({ signOut }) => (
+        <main>
+          <button onClick={signOut}>Sign out</button>
+          <AIConversation
+            messages={messages}
+            isLoading={isLoading}
+            handleSendMessage={sendMessage}
+          />
+        </main>
       )}
-    </Flex>
+    </Authenticator>
   );
 }
+
+export default App;
